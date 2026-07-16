@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  // Project site URL: https://123thu.github.io/portfolio/
-  base: '/portfolio/',
+  // Must match the GitHub repo name for project Pages.
+  base: '/123THU.github.io-portfolio/',
   build: {
     outDir: 'docs',
     assetsDir: 'assets',
