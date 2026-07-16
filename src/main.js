@@ -142,6 +142,15 @@ app.innerHTML = `
     </main>
 
     <button
+      class="back-button"
+      type="button"
+      aria-label="Back to entrance"
+      hidden
+    >
+      ← Back
+    </button>
+
+    <button
       class="music-toggle"
       type="button"
       aria-label="Pause music"
@@ -157,6 +166,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const entrance = document.querySelector('.entrance');
 const enterButton = document.querySelector('.enter-button');
 const portfolioRoot = document.querySelector('.portfolio');
+const backButton = document.querySelector('.back-button');
 const musicToggle = document.querySelector('.music-toggle');
 const audioStatus = document.querySelector('.audio-status');
 const cursorGlow = document.querySelector('.cursor-glow');
@@ -283,7 +293,22 @@ function revealPortfolio() {
   document.body.classList.add('is-entered');
   entrance.setAttribute('aria-hidden', 'true');
   portfolioRoot.setAttribute('aria-hidden', 'false');
+  backButton.hidden = false;
   portfolioRoot.focus({ preventScroll: true });
+}
+
+function returnToEntrance() {
+  if (!isEntered) return;
+
+  isEntered = false;
+  document.body.classList.remove('is-entered');
+  entrance.setAttribute('aria-hidden', 'false');
+  portfolioRoot.setAttribute('aria-hidden', 'true');
+  backButton.hidden = true;
+  enterButton.disabled = false;
+  setAudioStatus('');
+  window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+  enterButton.focus();
 }
 
 async function enterRain() {
@@ -326,6 +351,7 @@ function applyParallax() {
 }
 
 enterButton.addEventListener('click', enterRain);
+backButton.addEventListener('click', returnToEntrance);
 musicToggle.addEventListener('click', toggleMusic);
 
 window.addEventListener('pointermove', updateCursorGlow);
