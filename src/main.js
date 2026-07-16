@@ -8,6 +8,7 @@ const portfolio = {
   entranceBackground,
   music: '/music/theme.m4a',
   poem: {
+    dedication: 'This poem is for the girl I have loved for more than ten years.',
     title: 'What can I hold you with?',
     author: 'Jorge Luis Borges',
     source: 'Two English Poems, 1934',
@@ -99,6 +100,7 @@ app.innerHTML = `
 
     <section class="poem" id="poem" aria-label="Poem by Jorge Luis Borges">
       <div class="poem__inner">
+        <p class="poem__dedication">${portfolio.poem.dedication}</p>
         <p class="poem__label">From Two English Poems</p>
         <h2 class="poem__title">${portfolio.poem.title}</h2>
         <div class="poem__body">

@@ -106,6 +106,15 @@ a:focus-visible {
   max-width: 42rem;
 }
 
+.poem__dedication {
+  margin: 0 0 2.4rem;
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  line-height: 1.7;
+  color: rgba(236, 220, 190, 0.88);
+  letter-spacing: 0.04em;
+}
+
 .poem__label,
 .poem__credit {
   letter-spacing: 0.18em;
