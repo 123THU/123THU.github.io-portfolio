@@ -6,7 +6,7 @@ const portfolio = {
   entranceQuote: 'What can I hold you with?',
   entranceButton: 'ENTER THE RAIN',
   entranceBackground,
-  music: '/music/theme.mp3',
+  music: '/music/theme.m4a',
   identity: {
     name: 'Ruo Chang',
     role: 'xxx',
@@ -177,6 +177,8 @@ const rainContext = rainCanvas.getContext('2d');
 const audio = new Audio(portfolio.music);
 audio.loop = true;
 audio.preload = 'auto';
+audio.volume = 1;
+audio.load();
 
 let isEntered = false;
 let musicPlaying = false;
@@ -260,32 +262,32 @@ function setAudioStatus(message) {
   audioStatus.textContent = message;
 }
 
+function syncMusicToggle(isOn) {
+  musicPlaying = isOn;
+  musicToggle.hidden = false;
+  musicToggle.textContent = isOn ? 'Sound: On' : 'Sound: Off';
+  musicToggle.setAttribute('aria-label', isOn ? 'Pause music' : 'Play music');
+  musicToggle.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+}
+
 async function playMusic() {
   try {
+    audio.volume = 1;
+    audio.muted = false;
+    // Call play() immediately so it stays inside the user-gesture window.
     await audio.play();
-    musicPlaying = true;
-    musicToggle.hidden = false;
-    musicToggle.textContent = 'Sound: On';
-    musicToggle.setAttribute('aria-label', 'Pause music');
-    musicToggle.setAttribute('aria-pressed', 'true');
+    syncMusicToggle(true);
     setAudioStatus('');
   } catch (error) {
-    musicPlaying = false;
-    musicToggle.hidden = false;
-    musicToggle.textContent = 'Sound: Off';
-    musicToggle.setAttribute('aria-label', 'Play music');
-    musicToggle.setAttribute('aria-pressed', 'false');
-    setAudioStatus('Music could not start. You can try the sound control later.');
+    syncMusicToggle(false);
+    setAudioStatus('Music could not start. Tap Sound in the corner to retry.');
     console.error('Audio playback failed:', error);
   }
 }
 
 function pauseMusic() {
   audio.pause();
-  musicPlaying = false;
-  musicToggle.textContent = 'Sound: Off';
-  musicToggle.setAttribute('aria-label', 'Play music');
-  musicToggle.setAttribute('aria-pressed', 'false');
+  syncMusicToggle(false);
 }
 
 function revealPortfolio() {
@@ -315,8 +317,9 @@ async function enterRain() {
   if (isEntered) return;
   enterButton.disabled = true;
   setAudioStatus('Starting the room tone...');
-  revealPortfolio();
+  // Start audio during the click gesture first, then reveal the page.
   await playMusic();
+  revealPortfolio();
 }
 
 async function toggleMusic() {
