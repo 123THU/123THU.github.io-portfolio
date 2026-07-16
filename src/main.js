@@ -7,6 +7,22 @@ const portfolio = {
   entranceButton: 'ENTER THE RAIN',
   entranceBackground,
   music: '/music/theme.m4a',
+  poem: {
+    title: 'What can I hold you with?',
+    author: 'Jorge Luis Borges',
+    source: 'Two English Poems, 1934',
+    lines: [
+      'I offer you lean streets, desperate sunsets, the moon of the jagged suburbs.',
+      'I offer you the bitterness of a man who has looked long and long at the lonely moon.',
+      'I offer you my ancestors, my dead men, the ghosts that living men have honoured in bronze: my father\'s father killed in the frontier of Buenos Aires, two bullets through his lungs, bearded and dead, wrapped by his soldiers in the hide of a cow; my mother\'s grandfather —just twentyfour— heading a charge of three hundred men in Peru, now ghosts on vanished horses.',
+      'I offer you whatever insight my books may hold, whatever manliness or humour my life.',
+      'I offer you the loyalty of a man who has never been loyal.',
+      'I offer you that kernel of myself that I have saved, somehow —the central heart that deals not in words, traffics not with dreams, and is untouched by time, by joy, by adversities.',
+      'I offer you the memory of a yellow rose seen at sunset, years before you were born.',
+      'I offer you explanations of yourself, theories about yourself, authentic and surprising news of yourself.',
+      'I can give you my loneliness, my darkness, the hunger of my heart; I am trying to bribe you with uncertainty, with danger, with defeat.'
+    ]
+  },
   identity: {
     name: 'Ruo Chang',
     role: 'xxx',
@@ -80,6 +96,18 @@ app.innerHTML = `
           <span>${portfolio.entranceButton}</span>
         </button>
         <p class="audio-status" aria-live="polite"></p>
+        <a class="scroll-cue" href="#poem">Scroll for the poem</a>
+      </div>
+    </section>
+
+    <section class="poem" id="poem" aria-label="Poem by Jorge Luis Borges">
+      <div class="poem__inner">
+        <p class="poem__label">From Two English Poems</p>
+        <h2 class="poem__title">${portfolio.poem.title}</h2>
+        <div class="poem__body">
+          ${portfolio.poem.lines.map((line) => `<p>${line}</p>`).join('')}
+        </div>
+        <p class="poem__credit">${portfolio.poem.author} · ${portfolio.poem.source}</p>
       </div>
     </section>
 
@@ -164,6 +192,7 @@ app.innerHTML = `
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const entrance = document.querySelector('.entrance');
+const poem = document.querySelector('.poem');
 const enterButton = document.querySelector('.enter-button');
 const portfolioRoot = document.querySelector('.portfolio');
 const backButton = document.querySelector('.back-button');
@@ -294,8 +323,10 @@ function revealPortfolio() {
   isEntered = true;
   document.body.classList.add('is-entered');
   entrance.setAttribute('aria-hidden', 'true');
+  poem.setAttribute('aria-hidden', 'true');
   portfolioRoot.setAttribute('aria-hidden', 'false');
   backButton.hidden = false;
+  window.scrollTo({ top: 0, behavior: 'auto' });
   portfolioRoot.focus({ preventScroll: true });
 }
 
@@ -305,6 +336,7 @@ function returnToEntrance() {
   isEntered = false;
   document.body.classList.remove('is-entered');
   entrance.setAttribute('aria-hidden', 'false');
+  poem.setAttribute('aria-hidden', 'false');
   portfolioRoot.setAttribute('aria-hidden', 'true');
   backButton.hidden = true;
   enterButton.disabled = false;
