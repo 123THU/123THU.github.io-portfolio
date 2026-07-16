@@ -41,22 +41,19 @@ const portfolio = {
       title: 'Rain Archive',
       year: '2026',
       type: 'Web Direction / Frontend',
-      description:
-        'A journal-like interface for cataloging weather, fragments of voice notes, and cities remembered through windows.'
+      description: 'xxx'
     },
     {
       title: 'Night Window',
       year: '2025',
       type: 'Interactive Story / Visual Design',
-      description:
-        'A cinematic single-page experience built around soft transitions, muted typography, and distant light.'
+      description: 'xxx'
     },
     {
       title: 'Field Notes for Soft Machines',
       year: '2024',
       type: 'Creative Coding / Writing',
-      description:
-        'An experiment in pairing technical essays with ambient interface motion, treating code as a form of pacing.'
+      description: 'xxx'
     }
   ],
   notes: [
