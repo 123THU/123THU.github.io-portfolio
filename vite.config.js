@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/',
+  // Project site URL: https://123thu.github.io/portfolio/
+  base: '/portfolio/',
   build: {
-    // GitHub Pages (branch deploy) can serve this folder directly.
     outDir: 'docs',
     assetsDir: 'assets',
     emptyOutDir: true

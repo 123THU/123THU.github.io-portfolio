@@ -6,7 +6,7 @@ const portfolio = {
   entranceQuote: 'What can I hold you with?',
   entranceButton: 'ENTER THE RAIN',
   entranceBackground,
-  music: '/music/theme.m4a',
+  music: `${import.meta.env.BASE_URL}music/theme.m4a`,
   poem: {
     dedication: 'This poem is for the girl I have loved for more than ten years.',
     title: 'What can I hold you with?',
@@ -26,6 +26,7 @@ const portfolio = {
   },
   identity: {
     name: 'Ruo Chang',
+    mbti: 'INTJ',
     role: 'xxx',
     location: 'Based somewhere after midnight.'
   },
