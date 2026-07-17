@@ -7,8 +7,9 @@
   --line: rgba(220, 200, 170, 0.16);
   --accent: rgba(245, 232, 210, 0.94);
   --shadow: rgba(0, 0, 0, 0.38);
-  --sans: 'Inter', system-ui, sans-serif;
+  --sans: 'Source Sans 3', 'Helvetica Neue', sans-serif;
   --serif: 'Cormorant Garamond', Georgia, serif;
+  --body: 'Newsreader', 'Times New Roman', serif;
 }
 
 *,
@@ -54,7 +55,8 @@ a:focus-visible {
 
 .entrance,
 .poem,
-.portfolio {
+.portfolio,
+.detail-view {
   position: relative;
   z-index: 2;
 }
@@ -141,7 +143,7 @@ a:focus-visible {
   margin: 0;
   font-family: var(--serif);
   font-size: clamp(1.15rem, 2.2vw, 1.45rem);
-  line-height: 1.85;
+  line-height: 1.25;
   color: rgba(236, 230, 220, 0.86);
   text-wrap: pretty;
 }
@@ -265,10 +267,33 @@ a:focus-visible {
 }
 
 .hero__role,
-.section-body p {
+.section-body p,
+.about-list li {
   width: min(720px, 100%);
-  font-size: clamp(1rem, 1.4vw, 1.25rem);
-  line-height: 1.9;
+  font-family: var(--body);
+  font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+  line-height: 1.2;
+  color: rgba(235, 238, 243, 0.84);
+}
+
+.about-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.about-list li {
+  position: relative;
+  padding-left: 1.1rem;
+}
+
+.about-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
   color: rgba(235, 238, 243, 0.84);
 }
 
@@ -288,7 +313,7 @@ a:focus-visible {
 
 .section-body {
   display: grid;
-  gap: 1.25rem;
+  gap: 0.65rem;
 }
 
 .works {
@@ -297,6 +322,27 @@ a:focus-visible {
 
 .work-item {
   max-width: 720px;
+}
+
+.favorite-link,
+.person-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  max-width: 720px;
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.favorite-link:hover,
+.person-link:hover,
+.favorite-link:focus-visible,
+.person-link:focus-visible {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.favorite-link h3 {
+  margin: 0 0 0.7rem;
 }
 
 .work-item__meta {
@@ -310,8 +356,101 @@ a:focus-visible {
   font-size: clamp(2rem, 5vw, 3.25rem);
 }
 
+.detail-view {
+  position: relative;
+  z-index: 2;
+  width: min(860px, calc(100vw - 2.4rem));
+  margin: 0 auto;
+  padding: 12vh 0 16vh;
+  opacity: 0;
+  visibility: hidden;
+  filter: blur(16px);
+  pointer-events: none;
+  transition:
+    opacity 1.2s ease,
+    visibility 1.2s ease,
+    filter 1.2s ease;
+}
+
+.detail-view__inner {
+  max-width: 42rem;
+}
+
+.detail-kicker {
+  margin: 0 0 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.detail-title {
+  margin: 0 0 1.4rem;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(2.6rem, 8vw, 5.2rem);
+  line-height: 1.05;
+}
+
+.detail-intro,
+.detail-body p,
+.person-link p {
+  margin: 0;
+  font-family: var(--body);
+  font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+  line-height: 1.2;
+  color: rgba(235, 238, 243, 0.84);
+}
+
+.detail-body {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.people-list {
+  display: grid;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.person-link {
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.person-link h3 {
+  margin: 0 0 0.6rem;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.1;
+}
+
+body.has-detail .portfolio {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  filter: blur(16px);
+  pointer-events: none;
+  height: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+body.is-entered.has-detail .detail-view {
+  opacity: 1;
+  visibility: visible;
+  filter: blur(0);
+  pointer-events: auto;
+}
+
 .notes p {
   max-width: 680px;
+  font-family: var(--body);
+  line-height: 1.2;
   color: rgba(223, 229, 237, 0.78);
 }
 
@@ -551,9 +690,10 @@ body.is-entered .portfolio {
   }
 
   .hero__role,
-  .section-body p {
-    font-size: 1rem;
-    line-height: 1.75;
+  .section-body p,
+  .about-list li {
+    font-size: 1.05rem;
+    line-height: 1.2;
   }
 }
 

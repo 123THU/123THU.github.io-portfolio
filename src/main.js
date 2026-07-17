@@ -35,27 +35,84 @@ const portfolio = {
     'xxx'
   ],
   about: [
-    'xxx',
-    'xxx'
+    'This site is less a finished portrait than a place to keep looking.',
+    'I am still trying to figure out who he is.'
   ],
-  works: [
+  favorites: [
     {
-      title: 'Rain Archive',
-      year: '2026',
-      type: 'Web Direction / Frontend',
-      description: 'xxx'
+      id: 'poets',
+      category: 'Poets',
+      intro: 'xxx',
+      people: [
+        {
+          id: 'poet-1',
+          name: 'xxx',
+          summary: 'xxx',
+          paragraphs: ['xxx', 'xxx']
+        },
+        {
+          id: 'poet-2',
+          name: 'xxx',
+          summary: 'xxx',
+          paragraphs: ['xxx']
+        },
+        {
+          id: 'poet-3',
+          name: 'xxx',
+          summary: 'xxx',
+          paragraphs: ['xxx', 'xxx']
+        }
+      ]
     },
     {
-      title: 'Night Window',
-      year: '2025',
-      type: 'Interactive Story / Visual Design',
-      description: 'xxx'
+      id: 'directors',
+      category: 'Directors',
+      intro: 'xxx',
+      people: [
+        {
+          id: 'director-1',
+          name: 'xxx',
+          summary: 'xxx',
+          paragraphs: ['xxx', 'xxx']
+        },
+        {
+          id: 'director-2',
+          name: 'xxx',
+          summary: 'xxx',
+          paragraphs: ['xxx']
+        },
+        {
+          id: 'director-3',
+          name: 'xxx',
+          summary: 'xxx',
+          paragraphs: ['xxx', 'xxx']
+        }
+      ]
     },
     {
-      title: 'Field Notes for Soft Machines',
-      year: '2024',
-      type: 'Creative Coding / Writing',
-      description: 'xxx'
+      id: 'musicians',
+      category: 'Musicians',
+      intro: 'xxx',
+      people: [
+        {
+          id: 'musician-1',
+          name: 'xxx',
+          summary: 'xxx',
+          paragraphs: ['xxx', 'xxx']
+        },
+        {
+          id: 'musician-2',
+          name: 'xxx',
+          summary: 'xxx',
+          paragraphs: ['xxx']
+        },
+        {
+          id: 'musician-3',
+          name: 'xxx',
+          summary: 'xxx',
+          paragraphs: ['xxx', 'xxx']
+        }
+      ]
     }
   ],
   notes: [
@@ -115,32 +172,28 @@ app.innerHTML = `
       <header class="hero panel" data-depth="0.06">
         <p class="eyebrow">${portfolio.identity.location}</p>
         <h2>${portfolio.identity.name}</h2>
-        <p class="hero__role">${portfolio.identity.role}</p>
-        <div class="hero__intro">
-          ${portfolio.intro.map((paragraph) => `<p>${paragraph}</p>`).join('')}
-        </div>
       </header>
 
       <section class="panel panel-grid" id="about" data-depth="0.12">
         <p class="section-label">About</p>
         <div class="section-body">
-          ${portfolio.about.map((paragraph) => `<p>${paragraph}</p>`).join('')}
+          <ul class="about-list">
+            ${portfolio.about.map((paragraph) => `<li>${paragraph}</li>`).join('')}
+          </ul>
         </div>
       </section>
 
-      <section class="panel panel-grid" id="work" data-depth="0.18">
-        <p class="section-label">Selected Work</p>
+      <section class="panel panel-grid" id="favorites" data-depth="0.18">
+        <p class="section-label">Favorites</p>
         <div class="section-body works">
-          ${portfolio.works
+          ${portfolio.favorites
             .map(
-              (work) => `
-                <article class="work-item">
-                  <div class="work-item__meta">
-                    <span>${work.year}</span>
-                    <span>${work.type}</span>
-                  </div>
-                  <h3>${work.title}</h3>
-                  <p>${work.description}</p>
+              (item) => `
+                <article class="work-item favorite-item">
+                  <a class="favorite-link" href="#/favorites/${item.id}">
+                    <h3>${item.category}</h3>
+                    <p>${item.intro}</p>
+                  </a>
                 </article>
               `
             )
@@ -169,6 +222,16 @@ app.innerHTML = `
       </footer>
     </main>
 
+    <section
+      class="detail-view"
+      id="detail-view"
+      tabindex="-1"
+      hidden
+      aria-hidden="true"
+    >
+      <div class="detail-view__inner"></div>
+    </section>
+
     <button
       class="back-button"
       type="button"
@@ -195,6 +258,8 @@ const entrance = document.querySelector('.entrance');
 const poem = document.querySelector('.poem');
 const enterButton = document.querySelector('.enter-button');
 const portfolioRoot = document.querySelector('.portfolio');
+const detailView = document.querySelector('.detail-view');
+const detailInner = document.querySelector('.detail-view__inner');
 const backButton = document.querySelector('.back-button');
 const musicToggle = document.querySelector('.music-toggle');
 const audioStatus = document.querySelector('.audio-status');
@@ -213,6 +278,172 @@ let isEntered = false;
 let musicPlaying = false;
 let raindrops = [];
 let rainFrame = 0;
+let routeState = { view: 'portfolio', categoryId: null, personId: null };
+
+function findCategory(categoryId) {
+  return portfolio.favorites.find((item) => item.id === categoryId) || null;
+}
+
+function findPerson(category, personId) {
+  return category?.people.find((person) => person.id === personId) || null;
+}
+
+function parseHash() {
+  const raw = window.location.hash.replace(/^#/, '');
+  const path = raw.startsWith('/') ? raw.slice(1) : raw;
+  const parts = path.split('/').filter(Boolean);
+
+  if (parts[0] === 'favorites' && parts[1]) {
+    const category = findCategory(parts[1]);
+    if (!category) return { view: 'portfolio', categoryId: null, personId: null };
+    if (parts[2]) {
+      const person = findPerson(category, parts[2]);
+      if (!person) {
+        return { view: 'category', categoryId: category.id, personId: null };
+      }
+      return { view: 'person', categoryId: category.id, personId: person.id };
+    }
+    return { view: 'category', categoryId: category.id, personId: null };
+  }
+
+  return { view: 'portfolio', categoryId: null, personId: null };
+}
+
+function setHash(path) {
+  const next = path.startsWith('#') ? path : `#${path}`;
+  if (window.location.hash === next) {
+    applyRoute(parseHash());
+    return;
+  }
+  window.location.hash = next;
+}
+
+function renderCategoryView(category) {
+  return `
+    <p class="detail-kicker">Favorites</p>
+    <h2 class="detail-title">${category.category}</h2>
+    <p class="detail-intro">${category.intro}</p>
+    <div class="people-list">
+      ${category.people
+        .map(
+          (person) => `
+            <a class="person-link" href="#/favorites/${category.id}/${person.id}">
+              <h3>${person.name}</h3>
+              <p>${person.summary}</p>
+            </a>
+          `
+        )
+        .join('')}
+    </div>
+  `;
+}
+
+function renderPersonView(category, person) {
+  return `
+    <p class="detail-kicker">${category.category}</p>
+    <h2 class="detail-title">${person.name}</h2>
+    <p class="detail-intro">${person.summary}</p>
+    <div class="detail-body">
+      ${person.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join('')}
+    </div>
+  `;
+}
+
+function updateBackButton() {
+  if (!isEntered) {
+    backButton.hidden = true;
+    return;
+  }
+
+  backButton.hidden = false;
+
+  if (routeState.view === 'person') {
+    backButton.setAttribute('aria-label', 'Back to category');
+    backButton.textContent = '← Back';
+    return;
+  }
+
+  if (routeState.view === 'category') {
+    backButton.setAttribute('aria-label', 'Back to portfolio');
+    backButton.textContent = '← Back';
+    return;
+  }
+
+  backButton.setAttribute('aria-label', 'Back to entrance');
+  backButton.textContent = '← Back';
+}
+
+function showDetailView(html) {
+  detailInner.innerHTML = html;
+  detailView.hidden = false;
+  detailView.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('has-detail');
+  portfolioRoot.setAttribute('aria-hidden', 'true');
+  window.scrollTo({ top: 0, behavior: 'auto' });
+  detailView.focus({ preventScroll: true });
+}
+
+function hideDetailView() {
+  detailView.hidden = true;
+  detailView.setAttribute('aria-hidden', 'true');
+  detailInner.innerHTML = '';
+  document.body.classList.remove('has-detail');
+  if (isEntered) {
+    portfolioRoot.setAttribute('aria-hidden', 'false');
+  }
+}
+
+function applyRoute(nextState) {
+  routeState = nextState;
+
+  if (!isEntered) {
+    hideDetailView();
+    updateBackButton();
+    return;
+  }
+
+  if (routeState.view === 'category') {
+    const category = findCategory(routeState.categoryId);
+    if (!category) {
+      setHash('#/');
+      return;
+    }
+    showDetailView(renderCategoryView(category));
+    updateBackButton();
+    return;
+  }
+
+  if (routeState.view === 'person') {
+    const category = findCategory(routeState.categoryId);
+    const person = findPerson(category, routeState.personId);
+    if (!category || !person) {
+      setHash(category ? `#/favorites/${category.id}` : '#/');
+      return;
+    }
+    showDetailView(renderPersonView(category, person));
+    updateBackButton();
+    return;
+  }
+
+  hideDetailView();
+  updateBackButton();
+}
+
+function handleBack() {
+  if (!isEntered) return;
+
+  if (routeState.view === 'person' && routeState.categoryId) {
+    setHash(`#/favorites/${routeState.categoryId}`);
+    return;
+  }
+
+  if (routeState.view === 'category') {
+    setHash('#/');
+    return;
+  }
+
+  returnToEntrance();
+}
 
 function createRaindrop(width, height, spawnAnywhere = false) {
   const depth = Math.random();
@@ -325,9 +556,18 @@ function revealPortfolio() {
   entrance.setAttribute('aria-hidden', 'true');
   poem.setAttribute('aria-hidden', 'true');
   portfolioRoot.setAttribute('aria-hidden', 'false');
-  backButton.hidden = false;
   window.scrollTo({ top: 0, behavior: 'auto' });
-  portfolioRoot.focus({ preventScroll: true });
+
+  const route = parseHash();
+  if (route.view === 'portfolio' && window.location.hash !== '#/') {
+    setHash('#/');
+  } else {
+    applyRoute(route);
+  }
+
+  if (routeState.view === 'portfolio') {
+    portfolioRoot.focus({ preventScroll: true });
+  }
 }
 
 function returnToEntrance() {
@@ -338,7 +578,12 @@ function returnToEntrance() {
   entrance.setAttribute('aria-hidden', 'false');
   poem.setAttribute('aria-hidden', 'false');
   portfolioRoot.setAttribute('aria-hidden', 'true');
-  backButton.hidden = true;
+  hideDetailView();
+  routeState = { view: 'portfolio', categoryId: null, personId: null };
+  if (window.location.hash && window.location.hash !== '#poem') {
+    history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+  }
+  updateBackButton();
   enterButton.disabled = false;
   setAudioStatus('');
   window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
@@ -386,8 +631,13 @@ function applyParallax() {
 }
 
 enterButton.addEventListener('click', enterRain);
-backButton.addEventListener('click', returnToEntrance);
+backButton.addEventListener('click', handleBack);
 musicToggle.addEventListener('click', toggleMusic);
+
+window.addEventListener('hashchange', () => {
+  if (!isEntered) return;
+  applyRoute(parseHash());
+});
 
 window.addEventListener('pointermove', updateCursorGlow);
 window.addEventListener('pointerleave', handlePointerLeave);
@@ -406,5 +656,6 @@ if (reducedMotion.matches) {
   document.body.classList.add('reduced-motion');
 }
 
+updateBackButton();
 applyParallax();
 startRain();
