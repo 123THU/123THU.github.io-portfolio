@@ -184,7 +184,7 @@ app.innerHTML = `
         </div>
       </section>
 
-      <section class="panel panel-grid" id="favorites" data-depth="0.18">
+      <section class="panel panel-grid" id="favorites" data-depth="0.12">
         <p class="section-label">Favorites</p>
         <div class="section-body works">
           ${portfolio.favorites
@@ -202,7 +202,7 @@ app.innerHTML = `
         </div>
       </section>
 
-      <section class="panel panel-grid" id="notes" data-depth="0.1">
+      <section class="panel panel-grid" id="notes" data-depth="0.12">
         <p class="section-label">Notes</p>
         <div class="section-body notes">
           ${portfolio.notes.map((note) => `<p>${note}</p>`).join('')}

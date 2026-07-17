@@ -247,7 +247,7 @@ a:focus-visible {
 
 .panel {
   position: relative;
-  margin-bottom: 7rem;
+  margin-bottom: 5.5rem;
   padding: 0 0 1.4rem;
   border-bottom: 1px solid var(--line);
   transform: translate3d(0, 0, 0);
@@ -255,6 +255,11 @@ a:focus-visible {
     opacity 1.2s ease,
     filter 1.2s ease,
     transform 1.2s ease;
+}
+
+.panel.panel-grid {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .hero {
@@ -488,6 +493,13 @@ body.is-entered.has-detail .detail-view {
 
 #notes {
   margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+#favorites {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .site-footer {
