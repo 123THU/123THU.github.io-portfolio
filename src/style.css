@@ -484,10 +484,15 @@ body.is-entered.has-detail .detail-view {
   border-color: rgba(241, 242, 244, 0.7);
 }
 
-.site-credit {
+.site-credit,
+.section-body .site-credit {
   margin: 1.6rem 0 0;
+  width: auto;
+  max-width: none;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  line-height: 1.4;
   letter-spacing: 0.14em;
-  font-size: 0.72rem;
   color: var(--muted);
 }
 
