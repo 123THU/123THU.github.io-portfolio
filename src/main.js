@@ -124,7 +124,8 @@ const portfolio = {
     github: { label: 'GitHub', href: 'https://github.com/123THU' },
     x: { label: 'X', href: 'https://x.com/' },
     email: { label: 'Email', href: 'mailto:hello@example.com' }
-  }
+  },
+  credit: '© 2026 123THU'
 };
 
 const app = document.querySelector('#app');
@@ -210,15 +211,18 @@ app.innerHTML = `
 
       <footer class="panel panel-grid footer" id="contact" data-depth="0.08">
         <p class="section-label">Elsewhere</p>
-        <nav class="section-body links" aria-label="Social links">
-          ${Object.values(portfolio.links)
-            .map(
-              (link) => `
-                <a href="${link.href}" target="_blank" rel="noreferrer">${link.label}</a>
-              `
-            )
-            .join('')}
-        </nav>
+        <div class="section-body">
+          <nav class="links" aria-label="Social links">
+            ${Object.values(portfolio.links)
+              .map(
+                (link) => `
+                  <a href="${link.href}" target="_blank" rel="noreferrer">${link.label}</a>
+                `
+              )
+              .join('')}
+          </nav>
+          <p class="site-credit">${portfolio.credit}</p>
+        </div>
       </footer>
     </main>
 

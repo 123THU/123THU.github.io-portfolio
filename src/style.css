@@ -484,6 +484,13 @@ body.is-entered.has-detail .detail-view {
   border-color: rgba(241, 242, 244, 0.7);
 }
 
+.site-credit {
+  margin: 1.6rem 0 0;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
 .back-button,
 .music-toggle {
   position: fixed;
