@@ -259,17 +259,20 @@ a:focus-visible {
 
 .hero {
   padding-top: 16vh;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 .hero h2 {
-  margin: 0.75rem 0;
+  margin: 0.5rem 0 0.35rem;
   font-size: clamp(2.4rem, 6vw, 4.2rem);
 }
 
 .hero__role,
 .section-body p,
 .about-list li {
-  width: min(720px, 100%);
+  width: auto;
+  max-width: none;
   font-family: var(--body);
   font-size: clamp(1.35rem, 2.4vw, 1.75rem);
   line-height: 1.25;
@@ -287,6 +290,7 @@ a:focus-visible {
 .about-list li {
   position: relative;
   padding-left: 1.1rem;
+  white-space: nowrap;
 }
 
 .about-list li::before {
@@ -308,7 +312,11 @@ a:focus-visible {
 }
 
 .section-label {
-  padding-top: 0.5rem;
+  padding-top: 0;
+}
+
+#about {
+  margin-top: 0;
 }
 
 .section-body {
@@ -653,12 +661,17 @@ body.is-entered .portfolio {
     gap: 1rem;
   }
 
+  .about-list li {
+    white-space: normal;
+  }
+
   .panel {
     margin-bottom: 4rem;
   }
 
   .hero {
     padding-top: 10vh;
+    margin-bottom: 1.5rem;
   }
 
   .work-item__meta {
