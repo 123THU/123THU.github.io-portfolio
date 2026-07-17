@@ -209,20 +209,17 @@ app.innerHTML = `
         </div>
       </section>
 
-      <footer class="panel panel-grid footer" id="contact" data-depth="0.08">
-        <p class="section-label">Elsewhere</p>
-        <div class="section-body">
-          <nav class="links" aria-label="Social links">
-            ${Object.values(portfolio.links)
-              .map(
-                (link) => `
-                  <a href="${link.href}" target="_blank" rel="noreferrer">${link.label}</a>
-                `
-              )
-              .join('')}
-          </nav>
-          <p class="site-credit">${portfolio.credit}</p>
-        </div>
+      <footer class="site-footer" id="contact">
+        <nav class="links" aria-label="Social links">
+          ${Object.values(portfolio.links)
+            .map(
+              (link) => `
+                <a href="${link.href}" target="_blank" rel="noreferrer">${link.label}</a>
+              `
+            )
+            .join('')}
+        </nav>
+        <p class="site-credit">${portfolio.credit}</p>
       </footer>
     </main>
 

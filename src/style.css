@@ -469,7 +469,7 @@ body.is-entered.has-detail .detail-view {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 1.4rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0;
 }
 
 .links a {
@@ -477,6 +477,8 @@ body.is-entered.has-detail .detail-view {
   text-decoration: none;
   border-bottom: 1px solid transparent;
   padding-bottom: 0.2rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
   transition: border-color 240ms ease, color 240ms ease;
 }
 
@@ -484,9 +486,22 @@ body.is-entered.has-detail .detail-view {
   border-color: rgba(241, 242, 244, 0.7);
 }
 
+#notes {
+  margin-bottom: 0;
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem 1.5rem;
+  padding: 1.25rem 0 2rem;
+}
+
 .site-credit,
 .section-body .site-credit {
-  margin: 1.6rem 0 0;
+  margin: 0;
   width: auto;
   max-width: none;
   font-family: var(--sans);
